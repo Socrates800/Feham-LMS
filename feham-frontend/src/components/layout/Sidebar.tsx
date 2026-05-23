@@ -1,0 +1,123 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  Calendar,
+  GitBranch,
+  GraduationCap,
+  Home,
+  Layers,
+  LogOut,
+  Receipt,
+  Settings,
+  Users,
+  Wallet,
+} from 'lucide-react';
+import { laravelStorageUrl } from '@/lib/laravel-url';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/authStore';
+import type { UserRole } from '@/types';
+import { Button } from '@/components/ui/button';
+
+type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }> };
+
+const navByRole: Record<UserRole, NavItem[]> = {
+  super_admin: [],
+  admin: [
+    { href: '/admin', label: 'Dashboard', icon: Home },
+    { href: '/admin/school', label: 'School Settings', icon: Settings },
+    { href: '/admin/teachers', label: 'Teachers', icon: Users },
+    { href: '/admin/classes', label: 'Classes & Sections', icon: Layers },
+    { href: '/admin/timetable', label: 'Timetable', icon: Calendar },
+    { href: '/admin/structure', label: 'School Hierarchy', icon: GitBranch },
+    { href: '/admin/students', label: 'Students', icon: GraduationCap },
+    { href: '/admin/fees', label: 'Fee Management', icon: Receipt },
+    { href: '/admin/salaries', label: 'Salaries', icon: Wallet },
+  ],
+  teacher: [
+    { href: '/teacher', label: 'Dashboard', icon: Home },
+    { href: '/teacher/schedule', label: 'My Schedule', icon: Calendar },
+    { href: '/teacher/homework', label: 'Homework', icon: Receipt },
+    { href: '/teacher/remarks', label: 'Remarks', icon: Users },
+  ],
+  parent: [
+    { href: '/parent', label: 'My Children', icon: Home },
+    { href: '/parent/challans', label: 'Fee Challans', icon: Receipt },
+    { href: '/parent/homework', label: 'Homework', icon: Calendar },
+    { href: '/parent/remarks', label: 'Remarks', icon: Users },
+  ],
+};
+
+function isNavItemActive(pathname: string, href: string, allHrefs: string[]) {
+  const matches =
+    pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
+  if (!matches) return false;
+
+  const hasMoreSpecificMatch = allHrefs.some(
+    (other) =>
+      other !== href &&
+      other.length > href.length &&
+      other.startsWith(`${href}/`) &&
+      (pathname === other || pathname.startsWith(`${other}/`))
+  );
+
+  return !hasMoreSpecificMatch;
+}
+
+export function Sidebar() {
+  const pathname = usePathname();
+  const { user, school, clearAuth } = useAuthStore();
+  const items = user ? navByRole[user.role] : [];
+  const hrefs = items.map((item) => item.href);
+
+  const logoUrl = laravelStorageUrl(school?.logo_path);
+
+  return (
+    <aside className="flex h-screen w-60 flex-col border-r border-neutral-200 bg-white">
+      <div className="border-b border-neutral-200 p-4">
+        <div className="flex items-center gap-3">
+          {logoUrl ? (
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
+              <Image src={logoUrl} alt={school?.name ?? 'School'} width={40} height={40} className="h-full w-full object-contain" unoptimized />
+            </div>
+          ) : null}
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-bold text-indigo-700">{school?.name ?? 'Feham'}</p>
+            <p className="text-xs text-neutral-500 capitalize">{user?.role}</p>
+          </div>
+        </div>
+      </div>
+      <nav className="flex-1 space-y-1 p-3">
+        {items.map(({ href, label, icon: Icon }) => {
+          const active = isNavItemActive(pathname, href, hrefs);
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                active
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-neutral-700 hover:bg-neutral-100'
+              )}
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="border-t border-neutral-200 p-3">
+        <p className="truncate text-sm font-medium">{user?.name}</p>
+        <Button variant="ghost" size="sm" className="mt-2 w-full justify-start" onClick={clearAuth}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </Button>
+      </div>
+    </aside>
+  );
+}
+
+
