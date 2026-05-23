@@ -25,7 +25,7 @@ export default function DashboardLayout({
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-neutral-50 lg:flex">
+    <div className="min-h-screen bg-neutral-50 lg:flex lg:h-screen lg:overflow-hidden">
       <Sidebar className="hidden lg:flex" />
       <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
         <SheetContent side="left" className="w-[18rem] max-w-[86vw] p-0" showCloseButton={false}>
@@ -33,9 +33,9 @@ export default function DashboardLayout({
           <Sidebar onNavigate={() => setMobileNavOpen(false)} />
         </SheetContent>
       </Sheet>
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col lg:h-screen">
         <Topbar onMenuClick={() => setMobileNavOpen(true)} />
-        <main className="min-w-0 flex-1 overflow-x-hidden p-3 sm:p-4 lg:p-6">{children}</main>
+        <main className="min-w-0 flex-1 overflow-x-hidden p-3 sm:p-4 lg:overflow-y-auto lg:p-6">{children}</main>
       </div>
     </div>
   );
