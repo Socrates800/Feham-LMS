@@ -221,7 +221,7 @@ export default function StudentsPage() {
         </Button>
       </PageHeader>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { label: 'Total enrolled', value: stats.total, icon: GraduationCap },
           { label: 'Boys', value: stats.male, icon: Users },
@@ -244,19 +244,19 @@ export default function StudentsPage() {
 
       <Card className="border-neutral-200">
         <CardContent className="p-0">
-          <div className="flex flex-col gap-3 border-b border-neutral-200 p-4 lg:flex-row lg:items-center">
-            <div className="flex flex-1 items-center gap-2">
+          <div className="flex flex-col gap-3 border-b border-neutral-200 p-4 xl:flex-row xl:items-center">
+            <div className="flex min-h-11 flex-1 items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3">
               <Search className="h-4 w-4 shrink-0 text-neutral-400" />
               <Input
                 placeholder="Search name, roll no, guardian, phone…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="border-0 shadow-none focus-visible:ring-0"
+                className="border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
               />
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:grid-cols-3 xl:w-auto">
               <select
-                className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                 value={classFilter}
                 onChange={(e) => {
                   setClassFilter(e.target.value);
@@ -271,7 +271,7 @@ export default function StudentsPage() {
                 ))}
               </select>
               <select
-                className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                 value={sectionFilter}
                 onChange={(e) => setSectionFilter(e.target.value)}
               >
@@ -283,7 +283,7 @@ export default function StudentsPage() {
                 ))}
               </select>
               <select
-                className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value)}
               >
@@ -305,7 +305,7 @@ export default function StudentsPage() {
               </button>
             </p>
           ) : (
-            <Table>
+            <Table className="min-w-[760px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Roll No</TableHead>

@@ -174,7 +174,7 @@ export default function SalariesPage() {
         </Button>
       </PageHeader>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { label: 'Visible slips', value: stats.count, icon: FileText },
           { label: 'Gross payroll', value: money(stats.gross), icon: Wallet },
@@ -218,10 +218,10 @@ export default function SalariesPage() {
                   setMonthFilter(e.target.value);
                   resetPage();
                 }}
-                className="h-11 min-w-[160px] rounded-xl bg-neutral-50"
+                className="h-11 w-full rounded-xl bg-neutral-50"
               />
               <select
-                className="h-11 min-w-[180px] rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                className="h-11 w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                 value={teacherFilter}
                 onChange={(e) => {
                   setTeacherFilter(e.target.value);
@@ -236,7 +236,7 @@ export default function SalariesPage() {
                 ))}
               </select>
               <select
-                className="h-11 min-w-[150px] rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                className="h-11 w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                 value={statusFilter}
                 onChange={(e) => {
                   setStatusFilter(e.target.value);
@@ -257,9 +257,9 @@ export default function SalariesPage() {
               No salary slips found. Generate slips for the selected month.
             </p>
           ) : (
-            <div className="px-5 pb-5 pt-4">
+            <div className="px-3 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
               <div className="overflow-hidden rounded-xl border border-neutral-200">
-                <Table className="table-fixed">
+                <Table className="min-w-[920px] table-fixed">
                   <TableHeader className="bg-neutral-50">
                     <TableRow className="hover:bg-neutral-50">
                       <TableHead className="w-[24%] px-4 py-4">Teacher</TableHead>
@@ -328,7 +328,7 @@ export default function SalariesPage() {
                 <p className="text-sm text-neutral-600">
                   Showing {paginationStart}-{paginationEnd} of {filteredSlips.length} salary slips
                 </p>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
                   <select
                     className="h-10 rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50"
                     value={pageSize}

@@ -146,7 +146,7 @@ export default function ClassesPage() {
         description="Organize grades, sections, homeroom teachers, and student placement"
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(240px,300px)_1fr]">
+      <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(240px,300px)_1fr] xl:gap-6">
         <Card className="border-neutral-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="text-base">Classes</CardTitle>
@@ -226,7 +226,7 @@ export default function ClassesPage() {
                   </p>
                 </div>
                 <Button
-                  className="bg-indigo-600 hover:bg-indigo-700"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 sm:w-auto"
                   onClick={() => setAddSectionOpen(true)}
                 >
                   <Plus className="mr-2 h-4 w-4" />
@@ -406,9 +406,9 @@ function SectionCard({
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-center">
           <select
-            className="rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-sm"
+            className="w-full rounded-lg border border-neutral-200 bg-white px-2 py-1.5 text-sm sm:w-auto"
             value={section.class_teacher_id ?? ''}
             onChange={(e) =>
               onTeacherChange(e.target.value ? Number(e.target.value) : null)
@@ -439,7 +439,7 @@ function SectionCard({
               section when enrolling them.
             </p>
           ) : (
-            <Table>
+            <Table className="min-w-[620px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Roll No</TableHead>

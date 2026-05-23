@@ -124,7 +124,7 @@ export function StudentForm({
             onChange={(e) => set('name', e.target.value)}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <div className="flex-1">
             <Label htmlFor="st-roll">Roll number</Label>
             <Input
@@ -136,7 +136,7 @@ export function StudentForm({
             />
           </div>
           {!isEdit && onRequestRoll ? (
-            <Button type="button" variant="outline" className="mt-7 shrink-0" onClick={onRequestRoll}>
+            <Button type="button" variant="outline" className="shrink-0 sm:mt-7" onClick={onRequestRoll}>
               Suggest
             </Button>
           ) : null}
@@ -284,7 +284,7 @@ export function StudentForm({
         </div>
       </div>
 
-      <div className="flex gap-2 pt-2">
+      <div className="grid gap-2 pt-2 sm:grid-cols-2">
         <Button type="button" variant="outline" className="flex-1" onClick={onCancel}>
           Cancel
         </Button>

@@ -15,7 +15,7 @@ export default function ParentPortalPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">My Children</h1>
+      <h1 className="text-xl font-bold sm:text-2xl">My Children</h1>
       <div className="grid gap-4 md:grid-cols-2">
         {children.map((child) => (
           <Card key={child.id}>

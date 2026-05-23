@@ -12,7 +12,7 @@ export default function TeacherDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
+      <h1 className="text-xl font-bold sm:text-2xl">Teacher Dashboard</h1>
       <Card>
         <CardHeader>
           <CardTitle>Today&apos;s Schedule</CardTitle>

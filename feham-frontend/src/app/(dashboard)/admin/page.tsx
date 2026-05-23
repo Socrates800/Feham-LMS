@@ -50,13 +50,13 @@ export default function AdminDashboardPage() {
         : 'border-amber-200 bg-amber-50 text-amber-700';
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
-        <p className="text-neutral-600">Overview of your school</p>
+        <h1 className="text-xl font-bold text-neutral-900 sm:text-2xl">Dashboard</h1>
+        <p className="text-sm text-neutral-600 sm:text-base">Overview of your school</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard title="Total Students" value={stats.students} icon={GraduationCap} />
         <StatCard title="Total Teachers" value={stats.teachers} icon={Users} />
         <StatCard
@@ -71,20 +71,20 @@ export default function AdminDashboardPage() {
         />
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Link href="/admin/students" className={cn(buttonVariants({ variant: 'outline' }))}>
+      <div className="grid gap-3 sm:grid-cols-2 lg:flex lg:flex-wrap">
+        <Link href="/admin/students" className={cn(buttonVariants({ variant: 'outline' }), 'justify-center')}>
           + Add Student
         </Link>
-        <Link href="/admin/teachers" className={cn(buttonVariants({ variant: 'outline' }))}>
+        <Link href="/admin/teachers" className={cn(buttonVariants({ variant: 'outline' }), 'justify-center')}>
           + Add Teacher
         </Link>
         <Link
           href="/admin/fees"
-          className={cn(buttonVariants(), 'bg-indigo-600 text-white hover:bg-indigo-700')}
+          className={cn(buttonVariants(), 'justify-center bg-indigo-600 text-white hover:bg-indigo-700')}
         >
           Generate Challans
         </Link>
-        <Link href="/admin/timetable" className={cn(buttonVariants({ variant: 'outline' }))}>
+        <Link href="/admin/timetable" className={cn(buttonVariants({ variant: 'outline' }), 'justify-center')}>
           View Timetable
         </Link>
       </div>
@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
             <CardTitle>Recent Challans</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
+            <Table className="min-w-[480px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Student</TableHead>
@@ -137,7 +137,7 @@ export default function AdminDashboardPage() {
               timetable_today.map((t, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between rounded-lg border border-neutral-200 p-3"
+                  className="flex flex-col gap-2 rounded-lg border border-neutral-200 p-3 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
                     <p className="font-medium">{t.subject}</p>

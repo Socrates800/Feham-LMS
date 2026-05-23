@@ -225,7 +225,7 @@ export function TeacherForm({
         </div>
       </div>
 
-      <div className="flex gap-2 pt-2">
+      <div className="grid gap-2 pt-2 sm:grid-cols-2">
         <Button type="button" variant="outline" onClick={onCancel} disabled={loading}>
           Cancel
         </Button>

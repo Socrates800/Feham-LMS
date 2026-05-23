@@ -43,7 +43,7 @@ function TreeRow({
         type="button"
         onClick={() => hasChildren && setOpen((v) => !v)}
         className={cn(
-          'flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-neutral-50',
+          'flex w-full min-w-0 items-start gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-neutral-50 sm:items-center',
           !hasChildren && 'cursor-default'
         )}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
@@ -58,8 +58,8 @@ function TreeRow({
           <span className="w-4 shrink-0" />
         )}
         <Icon className="h-4 w-4 shrink-0 text-indigo-600" />
-        <span className="font-medium text-neutral-900">{label}</span>
-        {meta ? <span className="ml-auto text-xs text-neutral-500">{meta}</span> : null}
+        <span className="min-w-0 flex-1 break-words font-medium text-neutral-900">{label}</span>
+        {meta ? <span className="shrink-0 text-right text-xs text-neutral-500">{meta}</span> : null}
       </button>
       {hasChildren && open ? <div>{children}</div> : null}
     </div>
@@ -80,7 +80,7 @@ export default function StructurePage() {
       >
         <Link
           href="/admin/timetable"
-          className="inline-flex h-8 items-center rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium hover:bg-neutral-50"
+          className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium hover:bg-neutral-50 sm:w-auto"
         >
           Timetable builder
         </Link>
@@ -96,7 +96,7 @@ export default function StructurePage() {
         <p className="text-sm text-neutral-500">Could not load structure.</p>
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {[
               { label: 'Classes', value: data.summary.classes },
               { label: 'Sections', value: data.summary.sections },
@@ -113,8 +113,8 @@ export default function StructurePage() {
             ))}
           </div>
 
-          <Card className="border-neutral-200">
-            <CardContent className="p-4">
+          <Card className="overflow-hidden border-neutral-200">
+            <CardContent className="overflow-x-auto p-3 sm:p-4">
               <TreeRow
                 icon={School}
                 label={data.school.name}

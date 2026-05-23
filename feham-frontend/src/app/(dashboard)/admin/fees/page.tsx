@@ -304,7 +304,7 @@ export default function FeesPage() {
         </Button>
       </PageHeader>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { label: 'Visible challans', value: stats.count, icon: FileText },
           { label: 'Billed amount', value: money(stats.total), icon: Receipt },
@@ -326,11 +326,11 @@ export default function FeesPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col gap-4">
-        <TabsList className="h-12 w-fit gap-1 rounded-2xl bg-neutral-100 p-1">
+        <TabsList className="grid h-auto w-full grid-cols-2 gap-1 rounded-2xl bg-neutral-100 p-1 sm:flex sm:w-fit">
           <TabsTrigger
             value="structures"
             className={cn(
-              'rounded-xl px-5 py-2.5 text-sm font-semibold transition-all',
+              'rounded-xl px-3 py-2.5 text-sm font-semibold transition-all sm:px-5',
               activeTab === 'structures'
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
                 : 'text-neutral-600 hover:bg-white/70 hover:text-neutral-900'
@@ -341,7 +341,7 @@ export default function FeesPage() {
           <TabsTrigger
             value="challans"
             className={cn(
-              'rounded-xl px-5 py-2.5 text-sm font-semibold transition-all',
+              'rounded-xl px-3 py-2.5 text-sm font-semibold transition-all sm:px-5',
               activeTab === 'challans'
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
                 : 'text-neutral-600 hover:bg-white/70 hover:text-neutral-900'
@@ -367,8 +367,8 @@ export default function FeesPage() {
               structures.map((structure) => (
                 <Card key={structure.id} className="border-neutral-200">
                   <CardContent className="space-y-4 p-5">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
                         <h3 className="text-lg font-semibold text-neutral-900">{structure.name}</h3>
                         <p className="mt-1 text-sm text-neutral-500">
                           Applies to{' '}
@@ -395,14 +395,15 @@ export default function FeesPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="flex justify-end gap-2 border-t border-neutral-100 pt-3">
-                      <Button variant="outline" size="sm" onClick={() => openEditStructure(structure)}>
+                    <div className="grid gap-2 border-t border-neutral-100 pt-3 sm:flex sm:justify-end">
+                      <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => openEditStructure(structure)}>
                         <Pencil className="mr-2 h-4 w-4" />
                         Edit
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
+                        className="w-full sm:w-auto"
                         onClick={() => {
                           if (confirm(`Delete ${structure.name}?`)) {
                             deleteStructure.mutate(structure.id);
@@ -424,7 +425,7 @@ export default function FeesPage() {
           <Card className="border-neutral-200">
             <CardContent className="p-0">
               <div className="flex flex-col gap-3 border-b border-neutral-200 p-4 xl:flex-row xl:items-center">
-                <div className="flex flex-1 items-center gap-2">
+                <div className="flex min-h-11 flex-1 items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3">
                   <Search className="h-4 w-4 shrink-0 text-neutral-400" />
                   <Input
                     placeholder="Search challan, student, roll no, guardian..."
@@ -433,10 +434,10 @@ export default function FeesPage() {
                       setSearch(e.target.value);
                       setPage(1);
                     }}
-                    className="border-0 shadow-none focus-visible:ring-0"
+                    className="border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
                   />
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid gap-2 sm:grid-cols-3 xl:w-auto">
                   <Input
                     type="month"
                     value={monthFilter}
@@ -444,10 +445,10 @@ export default function FeesPage() {
                       setMonthFilter(e.target.value);
                       setPage(1);
                     }}
-                    className="w-[150px]"
+                    className="h-11 w-full"
                   />
                   <select
-                    className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                    className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                     value={classFilter}
                     onChange={(e) => {
                       setClassFilter(e.target.value);
@@ -462,7 +463,7 @@ export default function FeesPage() {
                     ))}
                   </select>
                   <select
-                    className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
+                    className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm"
                     value={statusFilter}
                     onChange={(e) => {
                       setStatusFilter(e.target.value);
@@ -484,9 +485,9 @@ export default function FeesPage() {
                   No challans found. Generate challans for the selected month and class.
                 </p>
               ) : (
-                <div className="px-5 pb-5 pt-4">
+                <div className="px-3 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
                   <div className="overflow-hidden rounded-xl border border-neutral-200">
-                    <Table className="table-fixed">
+                    <Table className="min-w-[920px] table-fixed">
                       <TableHeader className="bg-neutral-50">
                         <TableRow className="hover:bg-neutral-50">
                           <TableHead className="w-[14%] px-4 py-4">Challan</TableHead>
@@ -528,7 +529,7 @@ export default function FeesPage() {
                               </span>
                             </TableCell>
                             <TableCell className="px-4 py-4">
-                              <div className="flex min-w-[92px] justify-end gap-2">
+                              <div className="flex min-w-[92px] justify-end gap-1">
                             <Button
                               variant="ghost"
                               size="icon-sm"
@@ -569,7 +570,7 @@ export default function FeesPage() {
                     <p className="text-sm text-neutral-600">
                       Showing {paginationStart}-{paginationEnd} of {filteredChallans.length} challans
                     </p>
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
                       <select
                         className="h-10 rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50"
                         value={pageSize}

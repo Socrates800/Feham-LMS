@@ -23,6 +23,11 @@ import { Button } from '@/components/ui/button';
 
 type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }> };
 
+interface SidebarProps {
+  className?: string;
+  onNavigate?: () => void;
+}
+
 const navByRole: Record<UserRole, NavItem[]> = {
   super_admin: [],
   admin: [
@@ -66,7 +71,7 @@ function isNavItemActive(pathname: string, href: string, allHrefs: string[]) {
   return !hasMoreSpecificMatch;
 }
 
-export function Sidebar() {
+export function Sidebar({ className, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const { user, school, clearAuth } = useAuthStore();
   const items = user ? navByRole[user.role] : [];
@@ -75,7 +80,7 @@ export function Sidebar() {
   const logoUrl = laravelStorageUrl(school?.logo_path);
 
   return (
-    <aside className="flex h-screen w-60 flex-col border-r border-neutral-200 bg-white">
+    <aside className={cn('flex h-full w-72 max-w-full flex-col border-r border-neutral-200 bg-white lg:h-screen lg:w-60', className)}>
       <div className="border-b border-neutral-200 p-4">
         <div className="flex items-center gap-3">
           {logoUrl ? (
@@ -96,6 +101,7 @@ export function Sidebar() {
             <Link
               key={href}
               href={href}
+              onClick={onNavigate}
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
                 active
@@ -111,7 +117,15 @@ export function Sidebar() {
       </nav>
       <div className="border-t border-neutral-200 p-3">
         <p className="truncate text-sm font-medium">{user?.name}</p>
-        <Button variant="ghost" size="sm" className="mt-2 w-full justify-start" onClick={clearAuth}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mt-2 w-full justify-start"
+          onClick={() => {
+            onNavigate?.();
+            clearAuth();
+          }}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           Logout
         </Button>

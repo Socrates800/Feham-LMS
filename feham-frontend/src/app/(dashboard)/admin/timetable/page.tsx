@@ -174,13 +174,13 @@ export default function TimetablePage() {
         title="Timetable Builder"
         description="Weekly schedule by section — click any cell to assign subject and teacher"
       >
-        <Button variant="outline" onClick={() => setPeriodsOpen(true)}>
+        <Button variant="outline" className="w-full sm:w-auto" onClick={() => setPeriodsOpen(true)}>
           <Settings2 className="mr-2 h-4 w-4" />
           Manage periods
         </Button>
         <Link
           href="/admin/structure"
-          className="inline-flex h-8 items-center rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium hover:bg-neutral-50"
+          className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-neutral-200 bg-white px-3 text-sm font-medium hover:bg-neutral-50 sm:w-auto"
         >
           School hierarchy
         </Link>
@@ -188,7 +188,7 @@ export default function TimetablePage() {
 
       <Card className="border-neutral-200">
         <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-[220px] flex-1">
+          <div className="min-w-0 flex-1">
             <Label htmlFor="section-select">Section</Label>
             <select
               id="section-select"
@@ -235,9 +235,9 @@ export default function TimetablePage() {
         </div>
       ) : null}
 
-      <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white shadow-sm">
         <div
-          className="min-w-[720px] grid gap-px bg-neutral-200"
+          className="grid min-w-[760px] gap-px bg-neutral-200 lg:min-w-0"
           style={{
             gridTemplateColumns: `140px repeat(${DAYS.length}, minmax(100px, 1fr))`,
           }}

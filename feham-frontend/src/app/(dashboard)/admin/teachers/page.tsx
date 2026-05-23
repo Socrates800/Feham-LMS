@@ -129,21 +129,23 @@ export default function TeachersPage() {
 
       <Card className="border-neutral-200">
         <CardContent className="p-0">
-          <div className="flex items-center gap-2 border-b border-neutral-200 p-4">
+          <div className="border-b border-neutral-200 p-4">
+            <div className="flex min-h-11 max-w-xl items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3">
             <Search className="h-4 w-4 text-neutral-400" />
             <Input
               placeholder="Search by name, code, or subject…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="max-w-sm border-0 shadow-none focus-visible:ring-0"
+              className="border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
             />
+            </div>
           </div>
           {isLoading ? (
             <p className="p-6 text-neutral-600">Loading teachers…</p>
           ) : filtered.length === 0 ? (
             <p className="p-6 text-neutral-600">No teachers found.</p>
           ) : (
-            <Table>
+            <Table className="min-w-[760px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>

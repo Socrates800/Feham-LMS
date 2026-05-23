@@ -75,13 +75,13 @@ export default function SchoolSettingsPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">School Settings</h1>
-        <p className="text-neutral-600">Branding and contact details</p>
+        <h1 className="text-xl font-bold text-neutral-900 sm:text-2xl">School Settings</h1>
+        <p className="text-sm text-neutral-600 sm:text-base">Branding and contact details</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-2 lg:items-start lg:gap-6">
         <Card className="border-neutral-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export default function SchoolSettingsPage() {
                   <span className="text-xs text-neutral-400">No logo</span>
                 )}
               </div>
-              <div className="flex flex-1 flex-col gap-2">
+              <div className="flex w-full flex-1 flex-col gap-2 sm:w-auto">
                 <input
                   ref={fileRef}
                   type="file"
@@ -119,6 +119,7 @@ export default function SchoolSettingsPage() {
                 <Button
                   type="button"
                   variant="outline"
+                  className="w-full sm:w-auto"
                   disabled={uploadLogo.isPending}
                   onClick={() => fileRef.current?.click()}
                 >
