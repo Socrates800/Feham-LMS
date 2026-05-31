@@ -8,6 +8,7 @@ use App\Services\PdfService;
 use App\Services\SalaryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SalaryController extends Controller
 {
@@ -39,6 +40,7 @@ class SalaryController extends Controller
             'teacher_id' => 'nullable|exists:teachers,id',
             'allowances' => 'nullable|numeric|min:0',
             'deductions' => 'nullable|numeric|min:0',
+            'status' => ['nullable', Rule::in(['draft', 'issued'])],
         ]);
 
         $count = $this->salaryService->generateForMonth(
@@ -46,9 +48,30 @@ class SalaryController extends Controller
             $data['teacher_id'] ?? null,
             (float) ($data['allowances'] ?? 0),
             (float) ($data['deductions'] ?? 0),
+            $data['status'] ?? 'issued',
         );
 
         return response()->json(['message' => "Generated {$count} salary slips"]);
+    }
+
+    public function update(Request $request, SalarySlip $salarySlip): JsonResponse
+    {
+        $data = $request->validate([
+            'allowances' => 'required|numeric|min:0',
+            'manual_deductions' => 'required|numeric|min:0',
+            'status' => ['required', Rule::in(['draft', 'issued'])],
+            'payroll_note' => 'nullable|string|max:1000',
+        ]);
+
+        $salarySlip = $this->salaryService->updateSlip(
+            $salarySlip,
+            (float) $data['allowances'],
+            (float) $data['manual_deductions'],
+            $data['status'],
+            $data['payroll_note'] ?? null,
+        );
+
+        return response()->json($salarySlip);
     }
 
     public function downloadPdf(SalarySlip $salarySlip)

@@ -43,4 +43,23 @@ class Teacher extends Model
     {
         return $this->hasMany(Section::class, 'class_teacher_id');
     }
+
+    public function homeworks(): HasMany
+    {
+        return $this->hasMany(Homework::class);
+    }
+
+    public function remarks(): HasMany
+    {
+        return $this->hasMany(Remark::class);
+    }
+
+    /** Section IDs this teacher may manage (homeroom + timetable). */
+    public function accessibleSectionIds(): array
+    {
+        $fromTimetable = $this->timetables()->pluck('section_id');
+        $fromHomeroom = Section::where('class_teacher_id', $this->id)->pluck('id');
+
+        return $fromTimetable->merge($fromHomeroom)->unique()->filter()->values()->all();
+    }
 }

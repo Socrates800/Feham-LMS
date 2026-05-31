@@ -14,7 +14,7 @@ import { useAuthStore } from '@/store/authStore';
 import type { UserRole } from '@/types';
 
 const roleRoutes: Record<UserRole, string> = {
-  super_admin: '/admin',
+  super_admin: '/super-admin',
   admin: '/admin',
   teacher: '/teacher',
   parent: '/parent',

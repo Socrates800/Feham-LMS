@@ -25,6 +25,15 @@ class AuthController extends Controller
         }
 
         $user = Auth::user()->load('school');
+
+        if ($user->role !== 'super_admin' && $user->school && ! $user->school->is_active) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => ['This school account has been deactivated.'],
+            ]);
+        }
+
         $token = $user->createToken('feham-api')->plainTextToken;
 
         return response()->json([

@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { ImpersonationBanner } from '@/components/layout/ImpersonationBanner';
+import { RoleGuard } from '@/components/layout/RoleGuard';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Topbar } from '@/components/layout/Topbar';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
@@ -35,7 +37,10 @@ export default function DashboardLayout({
       </Sheet>
       <div className="flex min-w-0 flex-1 flex-col lg:h-screen">
         <Topbar onMenuClick={() => setMobileNavOpen(true)} />
-        <main className="min-w-0 flex-1 overflow-x-hidden p-3 sm:p-4 lg:overflow-y-auto lg:p-6">{children}</main>
+        <ImpersonationBanner />
+        <main className="min-w-0 flex-1 overflow-x-hidden p-3 sm:p-4 lg:overflow-y-auto lg:p-6">
+          <RoleGuard>{children}</RoleGuard>
+        </main>
       </div>
     </div>
   );

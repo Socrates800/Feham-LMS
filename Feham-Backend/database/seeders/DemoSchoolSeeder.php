@@ -91,14 +91,30 @@ class DemoSchoolSeeder extends Seeder
                     'school_id' => $school->id,
                     'section_id' => $section->id,
                     'roll_number' => 'BLA-'.str_pad((string) $roll++, 4, '0', STR_PAD_LEFT),
-                    'name' => fake()->name(),
-                    'guardian_name' => fake()->name(),
+                    'name' => \fake()->name(),
+                    'guardian_name' => \fake()->name(),
                     'guardian_phone' => '+92-3'.rand(10, 99).rand(1000000, 9999999),
                     'date_of_birth' => now()->subYears(rand(6, 15)),
                     'gender' => rand(0, 1) ? 'male' : 'female',
                 ]);
             }
         }
+
+        $demoParent = User::create([
+            'school_id' => $school->id,
+            'name' => 'Karson Johnston',
+            'email' => 'parent.bla0001@beacon.test',
+            'password' => 'password',
+            'role' => 'parent',
+        ]);
+
+        Student::where('school_id', $school->id)
+            ->where('roll_number', 'BLA-0001')
+            ->update([
+                'user_id' => $demoParent->id,
+                'guardian_name' => 'Karson Johnston',
+                'guardian_phone' => '+92-3825156601',
+            ]);
 
         $periods = [];
         $times = [
@@ -131,6 +147,17 @@ class DemoSchoolSeeder extends Seeder
             ]);
         }
 
+        foreach ($teachers as $idx => $teacher) {
+            Homework::create([
+                'school_id' => $school->id,
+                'teacher_id' => $teacher->id,
+                'section_id' => $section5A->id,
+                'subject' => $subjects[$idx % count($subjects)],
+                'description' => 'Review chapter '.($idx + 1).' and complete practice questions.',
+                'due_date' => now()->addDays($idx + 1),
+            ]);
+        }
+
         $feeStructure = FeeStructure::create([
             'school_id' => $school->id,
             'name' => 'Standard Monthly Fee',
@@ -147,26 +174,18 @@ class DemoSchoolSeeder extends Seeder
         auth()->login($admin);
         app(ChallanService::class)->generateForMonth(now()->format('Y-m'));
 
-        foreach (range(1, 3) as $i) {
-            Homework::create([
-                'school_id' => $school->id,
-                'teacher_id' => $teachers[0]->id,
-                'section_id' => $section5A->id,
-                'subject' => 'Mathematics',
-                'description' => "Complete exercises from chapter {$i}.",
-                'due_date' => now()->addDays($i * 2),
-            ]);
-        }
-
-        $students = Student::limit(5)->get();
-        foreach ($students as $idx => $student) {
-            Remark::create([
-                'school_id' => $school->id,
-                'teacher_id' => $teachers[1]->id,
-                'student_id' => $student->id,
-                'message' => 'Please ensure regular attendance and homework completion.',
-                'is_read' => $idx > 2,
-            ]);
+        $students = Student::where('section_id', $section5A->id)->get();
+        foreach ($teachers as $idx => $teacher) {
+            $student = $students[$idx % max(1, $students->count())] ?? $students->first();
+            if ($student) {
+                Remark::create([
+                    'school_id' => $school->id,
+                    'teacher_id' => $teacher->id,
+                    'student_id' => $student->id,
+                    'message' => 'Please ensure regular attendance and homework completion.',
+                    'is_read' => $idx % 2 === 0,
+                ]);
+            }
         }
 
         $this->command?->info('Demo school seeded. Login: admin@beacon.test / password');
